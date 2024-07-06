@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.tbl-top{
+  background-color: blueviolet;
+  color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.select-bar{
+  width: 190px;
+}
+.inp {
+  height: 40px;
+  border-radius: 10px;
+  /* border-color: blueviolet; */
+}
