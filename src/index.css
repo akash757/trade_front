@@ -13,18 +13,107 @@ code {
 }
 
 .tbl-top{
-  background-color: blueviolet;
-  color: white;
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: 20px;
+  background-color: #fff;
+    color: #404040;
+    padding: 0 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    border-bottom: 2px solid #ddd;
+    margin: 10px 0;
 }
-
+.TitleTab {
+  width: max-content;
+  border-bottom: 2px solid #5b5bf9;
+  margin: 0;
+  position: relative;
+  top:1px;
+  font-size: 16px;
+  padding-bottom: 8px;
+  font-weight: bold;
+}
 .select-bar{
   width: 190px;
+}
+.select-bar .css-13cymwt-control{
+  border-color: #b3b3b3;
 }
 .inp {
   height: 40px;
   border-radius: 10px;
+  border:1px solid #b3b3b3;
+  padding: 8px;
   /* border-color: blueviolet; */
+}
+.filter-search-bar {
+  padding:10px 38px 10px 20px;
+  align-items: center;
+}
+.ThreadTable {
+  padding: 10px 20px;
+  max-width: 100%;
+  overflow-y: scroll;
+  height: 80vh;
+}
+.Thread_Table {
+  border-radius: 5px ;
+  position: relative;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+}
+.Thread_Table td, .Thread_Table th {
+  white-space: nowrap;
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+}
+.Thread_Table th {
+  background-color: #c0c0c0 !important;
+  position: sticky;
+  top:-10px;
+  border: none !important;
+}
+.Thread_Table th:first-of-type {
+  left: 0;
+  top:-10px;
+}
+.Thread_Table tr th:first-child {
+  border-top-left-radius: 5px ;
+}
+.Thread_Table>tbody>tr:nth-of-type(odd)>* {
+  background: #fff;
+}
+.select-bar option {
+  z-index: 44;
+}
+.style-2-Scrolbar::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+.style-2-Scrolbar::-webkit-scrollbar {
+	width: 12px;
+	background-color: #F5F5F5;
+}
+.style-2-Scrolbar::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(241, 238, 238, 0.3);
+	background-color: #a7a6a6;
+}
+.Thread_Table tr:last-child td:last-child {
+  border-bottom-right-radius:10px;
+}
+
+.Thread_Table tr:last-child td:first-child {
+  border-bottom-left-radius:10px;
+}
+
+.Thread_Table tr:first-child th:first-child {
+  border-top-left-radius:10px
+}
+
+.Thread_Table tr:first-child th:last-child{
+  border-top-right-radius:10px
+}
+.Thread_Table {
+  border: none;
 }
