@@ -1,14 +1,11 @@
 import Table from "react-bootstrap/Table";
-import * as data from "../data";
-import Select from "react-select";
-import React, { useState, useEffect } from 'react';
-import DatePicker from "react-datepicker";
+import React, { useState, useEffect } from "react";
+import services from "../services";
 
 function Home() {
-  const [stockDetails, setStockDetails] = useState(data.default);
+  const [stockDetails, setStockDetails] = useState([]);
   const [dates, setDates] = useState([]);
-  const [selectedDate, setSelectedDate] = useState('');
-
+  const [selectedDate, setSelectedDate] = useState("");
   useEffect(() => {
     // Calculate dates from tomorrow to end of month
     const today = new Date();
@@ -24,9 +21,17 @@ function Home() {
       datesArray.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
     }
-
     setDates(datesArray);
+
+    const intervalId = setInterval(callApi, 1000);
+    return () => clearInterval(intervalId);
   }, []);
+
+  const callApi = async () => {
+    await services.getData().then((data) => {
+      setStockDetails(data?.data);
+    });
+  };
 
   const options = [
     { value: "BANKNIFTY ", label: "BANKNIFTY " },
@@ -44,8 +49,18 @@ function Home() {
   // Helper function to get month name from month index
   const getMonthName = (monthIndex) => {
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ];
     return months[monthIndex];
   };
@@ -63,19 +78,26 @@ function Home() {
         <select className="select-bar-Date" value={options}>
           <option value="">Select</option>
           {options.map((val) => (
-            <option>
-              {val.label}
+            <option>{val.label}</option>
+          ))}
+        </select>
+        <select
+          className="select-bar-Date"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+        >
+          <option value="">Select a date</option>
+          {dates.map((date) => (
+            <option
+              key={date.toISOString()}
+              value={date.toISOString().split("T")[0]}
+            >
+              {`${date.getDate()} ${getMonthName(
+                date.getMonth()
+              )} ${date.getFullYear()}`}
             </option>
           ))}
         </select>
-        <select className="select-bar-Date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)}>
-        <option value="">Select a date</option>
-        {dates.map((date) => (
-          <option key={date.toISOString()} value={date.toISOString().split('T')[0]}>
-            {`${date.getDate()} ${getMonthName(date.getMonth())} ${date.getFullYear()}`}
-          </option>
-        ))}
-      </select>
         <p className="mb-0">
           PCR:{" "}
           <span>
@@ -109,48 +131,57 @@ function Home() {
         </p>
       </div>
       <div className="ThreadTable style-2-Scrolbar">
-      <Table  className="Thread_Table" hover>
-        <thead>
-          <tr>
-            <th>OI Change</th>
-            <th>
-              OI in Lakhs
-              <span className="RedHeaderBorder"></span>
-            </th>
-            <th>Call LTP (Chg%)</th>
-            <th>Strike</th>
-            <th>Put LTP (Chg%)</th>
-            <th>
-              OI in Lakhs
-              <span className="GreenHeaderBorder"></span>
-            </th>
-            <th>OI Change</th>
-            <th>ATM Straddle</th>
-          </tr>
-        </thead>
-        <tbody>
-          {stockDetails.map((data, index) => (
+        <Table className="Thread_Table" hover>
+          <thead>
             <tr>
-              <td>{data?.OIChange1}</td>
-              <td>{data?.OILakhs1}
-                <span className="PercentageGreen">{data.CallLTPPER1} % </span>
-              </td>
-              <td>{data?.CallLTP}</td>
-              <td>
-                <span className="StrileBtn">{data?.Strike}</span>
-                <span className="BorderRed"></span>
-                <span className="BorderGreen"></span>
-              </td>
-              <td>{data?.PutLTP}
-                <span className="PercentageRed">{data.CallLTPPER1} %</span>
-              </td>
-              <td>{data?.OILakhs2}</td>
-              <td>{data?.OIChange2}</td>
-              <td>{data?.ATMStraddle}</td>
+              <th>OI Change</th>
+              <th>
+                OI in Lakhs
+                <span className="RedHeaderBorder"></span>
+              </th>
+              <th>Call LTP (Chg%)</th>
+              <th>Strike</th>
+              <th>Put LTP (Chg%)</th>
+              <th>
+                OI in Lakhs
+                <span className="GreenHeaderBorder"></span>
+              </th>
+              <th>OI Change</th>
+              <th>ATM Straddle</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {stockDetails.length &&
+              stockDetails.map((data, index) => {
+                return (
+                  <tr>
+                    <td>{data?.OIChange1 || 0}</td>
+                    <td>
+                      {data?.OILakhs1}
+                      <span className="PercentageGreen">
+                        {data.CallLTPPER1 || 0} %{" "}
+                      </span>
+                    </td>
+                    <td>{data?.CEltp}</td>
+                    <td>
+                      <span className="StrileBtn">{data?.Strike || 0}</span>
+                      <span className="BorderRed"></span>
+                      <span className="BorderGreen"></span>
+                    </td>
+                    <td>
+                      {data?.PEltp}
+                      <span className="PercentageRed">
+                        {data.CallLTPPER1 || 0} %
+                      </span>
+                    </td>
+                    <td>{data?.OILakhs2  || 0}</td>
+                    <td>{data?.OIChange2 || 0}</td>
+                    <td>{data?.straddle || 0}</td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
       </div>
     </>
   );
