@@ -23,7 +23,7 @@ function Home() {
     }
     setDates(datesArray);
 
-    const intervalId = setInterval(callApi, 1000);
+    const intervalId = setInterval(callApi, 500);
     return () => clearInterval(intervalId);
   }, []);
 
