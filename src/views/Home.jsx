@@ -40,7 +40,7 @@ function Home() {
     { value: "09 july", label: "09 july" },
     { value: "08 july", label: "08 july" },
   ];
-  const header = ["Sr. No.", "Trading Symbol", "LTP", "Trading Symbol", "LTP", "Straddle"];
+  // const header = ["OI Change", "OI in Lakhs", "Call LTP (Chg%)", "Strike", "Put LTP (Chg%)", "OI in Lakhs", "OI Change","ATM Straddle"];
   // Helper function to get month name from month index
   const getMonthName = (monthIndex) => {
     const months = [
@@ -109,23 +109,44 @@ function Home() {
         </p>
       </div>
       <div className="ThreadTable style-2-Scrolbar">
-      <Table  className="Thread_Table"  striped hover>
+      <Table  className="Thread_Table" hover>
         <thead>
           <tr>
-            {header.map((name) => (
-              <th>{name}</th>
-            ))}
+            <th>OI Change</th>
+            <th>
+              OI in Lakhs
+              <span className="RedHeaderBorder"></span>
+            </th>
+            <th>Call LTP (Chg%)</th>
+            <th>Strike</th>
+            <th>Put LTP (Chg%)</th>
+            <th>
+              OI in Lakhs
+              <span className="GreenHeaderBorder"></span>
+            </th>
+            <th>OI Change</th>
+            <th>ATM Straddle</th>
           </tr>
         </thead>
         <tbody>
           {stockDetails.map((data, index) => (
             <tr>
-              <td>{index + 1}</td>
-              <td>{data?.CEtradingSymbol}</td>
-              <td>{data?.CEltp}</td>
-              <td>{data?.PEtradingSymbol}</td>
-              <td>{data?.PEltp}</td>
-              <td>12345</td>
+              <td>{data?.OIChange1}</td>
+              <td>{data?.OILakhs1}
+                <span className="PercentageGreen">{data.CallLTPPER1} % </span>
+              </td>
+              <td>{data?.CallLTP}</td>
+              <td>
+                <span className="StrileBtn">{data?.Strike}</span>
+                <span className="BorderRed"></span>
+                <span className="BorderGreen"></span>
+              </td>
+              <td>{data?.PutLTP}
+                <span className="PercentageRed">{data.CallLTPPER1} %</span>
+              </td>
+              <td>{data?.OILakhs2}</td>
+              <td>{data?.OIChange2}</td>
+              <td>{data?.ATMStraddle}</td>
             </tr>
           ))}
         </tbody>
